@@ -1,6 +1,6 @@
 
 //  ***************** CheeseBoard ************************************
-//  ***************** Bat Listener ******************** **************
+//  ***************** Bat Listener ***********************************
 //
 //  This code was:
 //  Written by: Matt Little
@@ -38,8 +38,10 @@
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>          // https://github.com/tzapu/WiFiManager
 #include <EMailSender.h>          // https://github.com/xreef/EMailSender
+
 #include <TimeLib.h>
 #include <WiFiUdp.h>
+
 // ********** For the RGB LEDS (Neopixels) *************************
 #include <Adafruit_NeoPixel.h>
 
@@ -106,7 +108,7 @@ void setup()
   Serial.print("Local port: ");
   Serial.println(Udp.localPort());
   Serial.println("waiting for sync");
-  getNtpTime(Udp);  // This usually fails! 
+  getNtpTime(Udp);  // This usually fails!
 
   old_millis = millis();
   // https://randomnerdtutorials.com/interrupts-timers-esp8266-arduino-ide-nodemcu/
@@ -146,12 +148,21 @@ void loop()
     }
     else if (bat_detected_flag == HIGH)
     {
+
       if (counter > 10)
       {
         // Here we do a count down for the email send:
-        Serial.print("Send email: ");
-        Serial.println((detection_counter + DETECTION_WINDOW) - millis());
+        Serial.print("Countdown to Email: ");
+        Serial.println(((detection_counter + DETECTION_WINDOW) - millis())/1000.0);
         counter = 0;
+      }
+      else
+      {
+        for (int i = 0; i < MAX_PIXELS; i++)
+        {
+          pixels.setPixelColor(i, pixels.Color(0, 0, 125, 0));
+        }
+        pixels.show();
       }
       counter++;
     }
