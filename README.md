@@ -3,7 +3,7 @@ Some sample code for sending an email when a bat is detected with a bat listener
 
 There is a blog post about this code here:
 
-*** To add ***
+https://www.curiouselectric.co.uk/blogs/news/bat-mail-email-alerts-with-the-bat-detector
 
 The equipment for this is available here:
 
